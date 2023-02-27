@@ -15,6 +15,7 @@ shoppingcart = {}
 
 remove_switch = 0
 def shoppingcart_function():
+    total = 0
     ask = input("Type which items you'd like. Type menu to display the menu. Type cart to display your current shopping cart. Type quit to checkout. ")
     while ask != 'quit':
             if ask.lower() == "menu":
@@ -45,15 +46,23 @@ def shoppingcart_function():
                                 else:
                                     print("Ok, your cart is empty!")
                                     remove_switch = 0
+                    elif ask.lower() == "quit":
+                        if shoppingcart:
+                            for i, v in shoppingcart.items():
+                                total += menu[i] * int(v)
+                            print(f"Thanks for shopping! Proceed to checkout to purchase {shoppingcart}. Your total is ${total}.00")
+                        else:
+                            print("Thanks for shopping!")
                     else:
                          print("Your cart is empty, add an item from the menu to see it in your cart.") 
 
             elif ask.lower() in menu or ask.lower() + "s" in menu:
                 if ask.lower() in menu:
                     item = ask
+                    ask = input(f"How many {item}s would you like? ")
                 else:
                     item = ask.lower() + "s"
-                ask = input(f"How many {item}s would you like? ")
+                    ask = input(f"How many {item} would you like? ")
                 quantity = ask
                 shoppingcart.update({item:quantity})
                 print(f"{quantity} {item}(s) have been added to your cart!")
@@ -62,6 +71,11 @@ def shoppingcart_function():
                           
 
             ask = input("Tell us what item you want. Type menu to display the menu. Type cart to view your cart and edit your order. Type quit to checkout. ")
-    print(f"Thanks for shopping! Proceed to checkout to purchase {shoppingcart}")
+    if shoppingcart:
+        for i, v in shoppingcart.items():
+            total += menu[i] * int(v)
+        print(f"Thanks for shopping! Proceed to checkout to purchase {shoppingcart}. Your total is ${total}.00")
+    else:
+        print("Thanks for shopping!")
 
 shoppingcart_function()
